@@ -2,7 +2,6 @@
 import pandas as pd
 import numpy as np
 from dataclasses import fields
-from collections import OrderedDict
 from typing import Optional, List, Union, Type, TypeVar, Generic, Iterable
 from copy import copy, deepcopy
 
@@ -156,24 +155,8 @@ class DataClassFrame(Generic[RecordT]):
         return _AtIndexer(self)
 
     def __repr__(self) -> str:
-        fields_ = OrderedDict([(field.name, field.type.__name__) for field in fields(self.record_class)])
-
-        # Get index info
-        df_index = self.df.index
-        if hasattr(df_index, 'name') and df_index.name is not None:
-            name = df_index.name
-            index_class = '%s' % fields_[name]
-        elif hasattr(df_index, 'names') \
-                and df_index.names is not None \
-                and len([n for n in df_index.names if n is not None]):
-            index_class = ', '.join('%s' % fields_[name] for name in df_index.names if name is not None)
-            index_class = 'Union[' + index_class + ']'
-        else:
-            index_class = 'None'
-
-        # Get dataclass info
         record_class_name = self.record_class.__name__
-        header = f'DataClassFrame[{index_class}, {record_class_name}]\n'
+        header = f'DataClassFrame[{record_class_name}]\n'
 
         # Get df info
         df_repr = self.df.__repr__()
@@ -192,6 +175,3 @@ class DataClassFrame(Generic[RecordT]):
 
     def to_dataframe(self) -> pd.DataFrame:
         return self.df.copy(deep=True)
-
-    # slicing
-    # append

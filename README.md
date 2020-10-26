@@ -1,7 +1,7 @@
 # dataclassframe
 
-A Python dataclass container with multi-indexing and bulk operations.
-Provides the typed benefits and ergonomics of dataclasses while having the efficiency of Pandas dataframes.
+A dataclass container with multi-indexing and bulk operations.
+Provides the typed benefits and ergonomics of dataclasses while having the efficiency of [Pandas dataframes](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html).
 
 The container is based on [data-oriented design][1] by optimising the memory layout of the stored data, providing fast
 bulk operations and a smaller memory footprint for large collections.
@@ -11,9 +11,19 @@ data types.
 Multi-indexing provides the ability to use multiple fields as keys to index the records.
 This is suitable for bidirectional and inverse dictionary keys.
 
-The `DataClassFrame` provide good ergonomics for production code as columns are immutable
+A DataClassFrame provides good ergonomics for production code as columns are immutable
 and columns/data types are well defined by the dataclasses.
 This makes it easier for users to understand the "shape" of the data in large projects and refactor when necessary.
+
+## Feature comparison
+
+| Container                                       | Positional indexing | Key indexing | Multi-key indexing | Data-oriented design | Column-wise opperations | Type hints | Use in prod |
+|-------------------------------------------------|---------------------|--------------|--------------------|----------------------|-------------------------|------------|-------------|
+| DataClassFrame                                  | ✅                   | ✅            | ✅                  | ✅                    | ✅                       | ✅          | ✅           |
+| List                                            | ✅                   | ❌            | ❌                  | ❌                    | ❌                       | ✅          | ✅           |
+| Dictionary                                      | ❌                   | ✅            | ❌                  | ❌                    | ❌                       | ✅          | ✅           |
+| [MIDict](https://github.com/ShenggaoZhu/midict) | ✅                   | ✅            | ✅                  | ❌                    | ❌                       | ✅          | ✅           |
+| [Pandas DataFrame](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html)                               | ❌                   | ❌            | ❌                  | ✅                    | ✅                       | ❌          | ❌           |
 
 ## Show by example
 
@@ -59,36 +69,37 @@ dcf: DataClassFrame[ExampleDC]
 dcf.iat[1]: ExampleDC
 ```
 
-### Design
+## Design
 
-It's no secret that dataclassframe is using a Pandas DataFrames to store data under the hood.
+It's no secret that under the hood DataClassFrames are using Pandas DataFrames to store data.
 The data is converted where possible to Pandas Series, which in turn use Numpy arrays. When the user accesses a record the data is then converted back into the dataclass provided at initialisation.
 
 Pandas provides many advantages over of using a simple list of dataclasses or similar such as better memory
-footprint and fast vectorised operations. However using Pandas `DataFrame` directly in production code is [considered by the author and others as a anti-pattern][2].
+footprint and fast vectorised operations. However using Pandas DataFrames directly in production code is [considered by the author and others as an anti-pattern][2].
 Specifically as DataFrames are column-wise mutable and therefore difficult to determine at code-time what columns
 the dataframe contains i.e. its shape. It also does not provide any type-hinting benefits.
 
 [1]: https://jamesmcm.github.io/blog/2020/07/25/intro-dod/
 [2]: https://devanla.com/posts/do-not-create-that-dataframe.html
 
-### Todo
+## Todo
 
 - [ ] Slicing and dataclassframe views
 - [ ] Append and inserts
+- [ ] Data-oriented design for Numpy fields
 
-### Changelog
+## Changelog
 
 All notable changes to this project will be documented here.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-#### [0.1.0] - 2020-10-22
-##### Added
+### [0.1.0] - 2020-10-22
+#### Added
 - Initial release of `dataclassframe`
 
 
-### License
+## License
 
 © Josh Levy-Kramer 2020. dataclassframe is released under the MIT license.
