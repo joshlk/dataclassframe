@@ -6,8 +6,8 @@ python:
   - "3.9"
 before_install:
   - python --version
-  - pip install -update pip
-  - pip install -update pytest
+  - pip install --update pip
+  - pip install --update pytest
 install:
   - pip install -r requirements.txt
   - pip install -r requirements_dev.txt
