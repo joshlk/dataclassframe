@@ -105,7 +105,7 @@ def test_from_records():
     with pytest.raises(ValueError):
         data = [
             DataClassExample1(1, 'a'),
-            DataClassExample2(0, 0, 0, 0, 0, 0)
+            ExampleDC(0, 0)
         ]
         DataClassFrame.from_records(record_class=DataClassExample1, data=data, index='b')
 

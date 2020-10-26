@@ -138,7 +138,7 @@ class DataClassFrame(Generic[RecordT]):
                 df[field.name] = pd.Series(name=field.name, dtype=field.type)
             except TypeError:
                 # If `TypeError` raised by `pandas_dtype` method. Just default to None i.e. list
-                df[field.name] = pd.Series(name=field.name, dtype=None)
+                df[field.name] = pd.Series(name=field.name, dtype='object')
         return df
 
     @staticmethod

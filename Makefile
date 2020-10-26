@@ -1,0 +1,37 @@
+.PHONY: build dist redist install dist-no-cython install-from-source clean uninstall venv-create venv-activate check-dist test-pypi pypi-upload
+
+dist:
+	python setup.py sdist
+
+install:
+	pip install .
+
+clean:
+	$(RM) -r build dist src/*.egg-info
+	$(RM) -r .pytest_cache
+	find . -name __pycache__ -exec rm -r {} +
+	#git clean -fdX
+
+venv-create:
+	python -m venv dataclassframe-venv
+	pip install -r requirements.txt
+	pip install -r requirements-dev.txt
+
+venv-activate:
+	# Doesn't work. Need to execute manually
+	source dataclassframe-venv/bin/activate
+
+venv-delete:
+	rm -rf dataclassframe-venv
+
+docs:
+	sphinx-build -b html docs_source docs
+
+check-dist:
+	twine check dist/*
+
+test-pypi:
+	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+
+pypi-upload:
+	twine upload dist/*

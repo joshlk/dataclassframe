@@ -1,0 +1,6 @@
+pytest
+wheel
+setuptools
+twine
+sphinx
+codecov
