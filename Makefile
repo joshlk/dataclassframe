@@ -14,8 +14,7 @@ clean:
 
 venv-create:
 	python -m venv dataclassframe-venv
-	pip install -r requirements.txt
-	pip install -r requirements-dev.txt
+	source dataclassframe-venv/bin/activate
 
 venv-activate:
 	# Doesn't work. Need to execute manually
