@@ -82,7 +82,7 @@ class _ColumnsWrapper(object):
         dcf = super().__getattribute__('__dcf')
 
         if name in cols:
-            # TODO: verify data-type isn't changed
+            # TODO: verify dataframe-type isn't changed
             dcf.df[name] = value
         else:
             super().__setattr__(name, value)
@@ -107,7 +107,7 @@ class DataClassFrame(Generic[RecordT]):
         def validate_and_to_dict(i, dc):
             if not isinstance(dc, record_class):
                 raise ValueError(
-                    "All data must be of type {}. Found type {} at index {}".format(record_class, dc, i))
+                    "All dataframe must be of type {}. Found type {} at index {}".format(record_class, dc, i))
             return dc.__dict__
 
         df_data = [validate_and_to_dict(i, dc) for i, dc in enumerate(data)]
@@ -116,13 +116,13 @@ class DataClassFrame(Generic[RecordT]):
         df = self._dataclass_to_empty_dataframe(record_class)
         df = df.append(df_data)
 
-        self._from_dataframe(record_class=record_class, data=df, index=index)
+        self._from_dataframe(record_class=record_class, dataframe=df, index=index)
 
     @classmethod
     def from_dataframe(
             cls,
             record_class: Type[RecordT],
-            data: Optional[pd.DataFrame] = None,
+            dataframe: Optional[pd.DataFrame] = None,
             index: Union[None, str, List[str]] = None,
     ):
         """
@@ -130,7 +130,7 @@ class DataClassFrame(Generic[RecordT]):
 
         Args:
             record_class: The dataclasses class of each record
-            data: A Pandas DataFrame of data
+            dataframe: A Pandas DataFrame of dataframe
             index: Fields of the dataclass to use as indexes
 
         Returns: DataClassFrame
@@ -138,19 +138,19 @@ class DataClassFrame(Generic[RecordT]):
         """
 
         self = cls.__new__(cls)
-        self._from_dataframe(record_class=record_class, data=data, index=index)
+        self._from_dataframe(record_class=record_class, dataframe=dataframe, index=index)
         return self
 
     def _from_dataframe(
             self,
             record_class: Type[RecordT],
-            data: Optional[pd.DataFrame] = None,
+            dataframe: Optional[pd.DataFrame] = None,
             index: Union[None, str, List[str]] = None,
     ):
         self.record_class = record_class
 
-        if data is not None:
-            self.df = data
+        if dataframe is not None:
+            self.df = dataframe
         else:
             self.df = self._dataclass_to_empty_dataframe(record_class)
 
@@ -185,11 +185,11 @@ class DataClassFrame(Generic[RecordT]):
         Returns: A record of type `RecordT`
 
         Examples:
-            Access second element
+            Access second element:
 
             >>> self.iat[1]
 
-            Access last element
+            Access last element:
 
             >>> self.iat[-1]
 
@@ -206,15 +206,15 @@ class DataClassFrame(Generic[RecordT]):
         Returns: A record of type `RecordT`
 
         Examples:
-            Access element `'a'` using the first field index
+            Access element `'a'` using the first field index:
 
             >>> self.at['a']
 
-            Access element `'b'` using the second field index
+            Access element `'b'` using the second field index:
 
             >>> self.iat[:, 'b']
 
-            Access element with unique key combination ['c', 'd']
+            Access element with unique key combination ['c', 'd']:
 
             >>> self.iat['c', 'd']
 
@@ -284,9 +284,9 @@ class DataClassFrame(Generic[RecordT]):
 
     def to_dataframe(self) -> pd.DataFrame:
         """
-        Convert to dataframe. Copy data to prevent side-effects.
+        Convert to dataframe. Copy dataframe to prevent side-effects.
 
-        Returns: Pandas DataFrame of same data
+        Returns: Pandas DataFrame of same dataframe
 
         """
 

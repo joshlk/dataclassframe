@@ -17,23 +17,23 @@ class DataClassExample1:
 def test_dataclass_str():
     # no index
     data = pd.DataFrame([[1, "a"], [2, "b"], [3, "c"]], columns=["a", "b"])
-    dcf = DataClassFrame(record_class=DataClassExample1, data=data)
+    dcf = DataClassFrame.from_dataframe(record_class=DataClassExample1, dataframe=data)
     print(dcf)
 
     # single index
     data = pd.DataFrame([[1, "a"], [2, "b"], [3, "c"]], columns=["a", "b"])
-    dcf = DataClassFrame(record_class=DataClassExample1, data=data, index="b")
+    dcf = DataClassFrame.from_dataframe(record_class=DataClassExample1, dataframe=data, index="b")
     print(dcf)
 
     # multi-index
     data = pd.DataFrame([[1, "a"], [2, "b"], [3, "c"]], columns=["a", "b"])
-    dcf = DataClassFrame(record_class=DataClassExample1, data=data, index=["a", "b"])
+    dcf = DataClassFrame.from_dataframe(record_class=DataClassExample1, dataframe=data, index=["a", "b"])
     print(dcf)
 
 
 def test_iat_indexing():
     data = pd.DataFrame([[1, "a"], [2, "b"], [3, "c"]], columns=["a", "b"])
-    dcf = DataClassFrame(record_class=DataClassExample1, data=data, index="b")
+    dcf = DataClassFrame.from_dataframe(record_class=DataClassExample1, dataframe=data, index="b")
 
     row = dcf.iat[0]
     assert isinstance(row, DataClassExample1)
@@ -48,7 +48,8 @@ def test_iat_indexing():
 
 def test_at_indexing():
     data = pd.DataFrame([[1, "a"], [2, "b"], [3, "c"]], columns=["a", "b"])
-    dcf: DataClassFrame[DataClassExample1] = DataClassFrame(record_class=DataClassExample1, data=data, index="b")
+    dcf: DataClassFrame[DataClassExample1] = DataClassFrame.from_dataframe(
+        record_class=DataClassExample1, dataframe=data, index="b")
 
     row = dcf.at['b']
     assert isinstance(row, DataClassExample1)
@@ -78,7 +79,7 @@ def test_at_multiindexing_basic():
         ExampleDC('c', 3),
     ]
 
-    dcf = DataClassFrame.from_records(
+    dcf = DataClassFrame(
         ExampleDC,
         records,
         index=['a', 'b'])
@@ -97,7 +98,7 @@ def test_from_records():
         DataClassExample1(3, 'c'),
     ]
 
-    dcf = DataClassFrame.from_records(record_class=DataClassExample1, data=data, index='b')
+    dcf = DataClassFrame(record_class=DataClassExample1, data=data, index='b')
 
     rec = dcf.at['c']
     assert rec == DataClassExample1(3, 'c')
@@ -107,12 +108,12 @@ def test_from_records():
             DataClassExample1(1, 'a'),
             ExampleDC(0, 0)
         ]
-        DataClassFrame.from_records(record_class=DataClassExample1, data=data, index='b')
+        DataClassFrame(record_class=DataClassExample1, data=data, index='b')
 
 
 def test_columns():
     data = pd.DataFrame([[1, "a"], [2, "b"], [3, "c"]], columns=["a", "b"])
-    dcf = DataClassFrame(record_class=DataClassExample1, data=data, index="b")
+    dcf = DataClassFrame.from_dataframe(record_class=DataClassExample1, dataframe=data, index="b")
 
     # Get sum of all columns
     assert 6 == dcf.cols.a.sum()
@@ -160,7 +161,7 @@ A1	B1	C3	U15	62	60	63	61
     """
 
     data = pd.read_csv(io.StringIO(data), sep='\t')
-    dcf = DataClassFrame(MIExample, data, index=['A', 'B', 'C', 'U'])
+    dcf = DataClassFrame.from_dataframe(MIExample, data, index=['A', 'B', 'C', 'U'])
 
     row_0 = dcf.iat[0]
     row_U0 = dcf.at[:, :, :, 'U0']  # Index U0 provides a unique result
@@ -199,7 +200,7 @@ def test_non_basic_types():
         )
     ]
 
-    dcf = DataClassFrame.from_records(record_class=DataClassTestTypes, data=data)
+    dcf = DataClassFrame(record_class=DataClassTestTypes, data=data)
     rec = dcf.iat[0]
 
     assert isinstance(rec.a, np.ndarray)
@@ -238,7 +239,7 @@ def test_none_values():
         )
     ]
 
-    dcf = DataClassFrame.from_records(record_class=DataClassNoneValues, data=data)
+    dcf = DataClassFrame(record_class=DataClassNoneValues, data=data)
     rec = dcf.iat[0]
 
     assert rec.string is None
