@@ -13,6 +13,10 @@ def to_basic_type(obj):
     else:
         return obj
 
+def is_collection(var):
+    """Test if iterable but not a string"""
+    return isinstance(var, Iterable) and not isinstance(var, str)
+
 
 class _IAtIndexer(Generic[RecordT]):
     def __init__(self, dcf: "DataClassFrame[RecordT]"):
@@ -54,12 +58,16 @@ class _AtIndexer(Generic[RecordT]):
 
     def __setitem__(self, key, value: RecordT):
         index_values_in_record = tuple(value.__dict__[field] for field in self.dcf.index)
+        key = (key,) if not isinstance(key, tuple) else key
         if key != index_values_in_record:
             raise ValueError(
                 "key {} must equal values in the record ({})".format(key, index_values_in_record))
         row = pd.Series(value.__dict__)
-        idx = pd.IndexSlice
-        self.dcf.df.loc[idx[key], :] = row
+        if len(key) == 1:
+            key_slice = key[0]
+        else:
+            key_slice = pd.IndexSlice[key]
+        self.dcf.df.loc[key_slice, :] = row
 
 
 class _ColumnsWrapper(object):
@@ -154,8 +162,9 @@ class DataClassFrame(Generic[RecordT]):
         else:
             self.df = self._dataclass_to_empty_dataframe(record_class)
 
-        self.index = list(index)
+        self.index = index
         if index is not None:
+            self.index = list(index) if is_collection(index) else [index]
             self.df = self.df.set_index(index, drop=False, verify_integrity=True)
         else:
             self.df = self.df.reset_index(drop=True)
