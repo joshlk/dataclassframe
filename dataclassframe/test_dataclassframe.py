@@ -90,6 +90,25 @@ def test_at_multiindexing_basic():
     d = dcf.at[:, 2]
     assert a == b == c == d
 
+def test_at_multiindexing_setting_value():
+    records = [
+        ExampleDC('a', 1),
+        ExampleDC('b', 2),
+        ExampleDC('c', 3),
+    ]
+
+    dcf = DataClassFrame(
+        ExampleDC,
+        records,
+        index=['a', 'b'])
+
+    new_rec = ExampleDC('d', 5)
+    dcf.at['d', 5] = new_rec
+    assert new_rec == dcf.at['d', 5]
+
+    with pytest.raises(ValueError):
+        # Key data miss-match
+        dcf.at['e', 6] = ExampleDC('d', 5)
 
 def test_from_records():
     data = [

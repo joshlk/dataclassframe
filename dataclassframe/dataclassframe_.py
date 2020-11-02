@@ -53,13 +53,13 @@ class _AtIndexer(Generic[RecordT]):
         return row
 
     def __setitem__(self, key, value: RecordT):
-        # TODO: need to validate with multi indexing
-        index_value_in_record = value.__dict__[self.dcf.index]
-        if key != index_value_in_record:
+        index_values_in_record = tuple(value.__dict__[field] for field in self.dcf.index)
+        if key != index_values_in_record:
             raise ValueError(
-                "key {} must equal values in the record ({})".format(key, index_value_in_record))
+                "key {} must equal values in the record ({})".format(key, index_values_in_record))
         row = pd.Series(value.__dict__)
-        self.dcf.df.loc[key] = row
+        idx = pd.IndexSlice
+        self.dcf.df.loc[idx[key], :] = row
 
 
 class _ColumnsWrapper(object):
@@ -154,7 +154,7 @@ class DataClassFrame(Generic[RecordT]):
         else:
             self.df = self._dataclass_to_empty_dataframe(record_class)
 
-        self.index = index
+        self.index = list(index)
         if index is not None:
             self.df = self.df.set_index(index, drop=False, verify_integrity=True)
         else:
@@ -180,7 +180,7 @@ class DataClassFrame(Generic[RecordT]):
     @property
     def iat(self) -> _IAtIndexer[RecordT]:
         """
-        Access a single element using positional index.
+        Access or set a single element using positional index.
 
         Returns: A record of type `RecordT`
 
@@ -193,6 +193,10 @@ class DataClassFrame(Generic[RecordT]):
 
             >>> self.iat[-1]
 
+            Set record at position 0:
+
+            >>> self.iat[0] = RecordT(foo='a', bar=1)
+
         """
 
         return _IAtIndexer(self)
@@ -200,23 +204,27 @@ class DataClassFrame(Generic[RecordT]):
     @property
     def at(self) -> _AtIndexer[RecordT]:
         """
-        Access a single element using a dictionary like key(s). The key or key combination must
+        Access or set a single element using a dictionary like key(s). The key or key combination must
         index a unique record otherwise a `KeyError` is raised.
 
         Returns: A record of type `RecordT`
 
         Examples:
-            Access element `'a'` using the first field index:
+            Access record `'a'` using the first field index:
 
             >>> self.at['a']
 
-            Access element `'b'` using the second field index:
+            Access record `'b'` using the second field index:
 
             >>> self.iat[:, 'b']
 
-            Access element with unique key combination ['c', 'd']:
+            Access record with unique key combination ['c', 'd']:
 
             >>> self.iat['c', 'd']
+
+            Set record with key `a`:
+
+            >>> self.iat['a'] = RecordT(foo='a', bar=1)
 
         """
 
@@ -225,7 +233,7 @@ class DataClassFrame(Generic[RecordT]):
     @property
     def cols(self) -> _ColumnsWrapper:
         """
-        Access a column as a Pandas Series
+        Access or set a column as a Pandas Series
 
         Returns:
             Pandas Series of column
@@ -238,6 +246,10 @@ class DataClassFrame(Generic[RecordT]):
             Sum column `a`:
 
             >>> self.cols.a.sum()
+
+            Set all values in column `a` to 0:
+
+            >>> self.cols.a = 0
 
         """
 

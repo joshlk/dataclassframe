@@ -1,7 +1,7 @@
 [![PyPI](https://img.shields.io/pypi/v/dataclassframe)](https://pypi.org/project/dataclassframe/)
 ![Python](https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9-blue)
 [![Build Status](https://travis-ci.com/joshlk/dataclassframe.svg?branch=main)](https://travis-ci.com/joshlk/dataclassframe)
-[![Documentation](https://readthedocs.org/projects/dataclassframe/badge/?version=latest&style=flat)](https://dataclassframe.readthedocs.io/)
+[![Documentation](https://readthedocs.org/projects/pip/badge/?version=latest&style=flat)](https://joshlk.github.io/dataclassframe)
 
 # dataclassframe
 
@@ -98,7 +98,7 @@ the dataframe contains i.e. its shape. It also does not provide any type-hinting
 
 ## Todo
 
-- [ ] Slicing and dataclassframe views
+- [ ] Slicing and dataclassframe views for accessing data and setting data
 - [ ] Append and inserts
 - [ ] Data-oriented design for Numpy fields
 
