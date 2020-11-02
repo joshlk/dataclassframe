@@ -1,7 +1,7 @@
 .PHONY: build dist redist install dist-no-cython install-from-source clean uninstall venv-create venv-activate check-dist test-pypi pypi-upload
 
 dist:
-	python setup.py sdist
+	python setup.py sdist bdist_wheel
 
 install:
 	pip install .
@@ -25,7 +25,7 @@ venv-delete:
 	rm -rf dataclassframe-venv
 
 docs:
-	sphinx-build -b html docs_source docs
+	sphinx-build -a -E -b html docs_source docs
 
 check-dist:
 	twine check dist/*

@@ -1,3 +1,8 @@
+[![PyPI](https://img.shields.io/pypi/v/dataclassframe)](https://pypi.org/project/dataclassframe/)
+![Python](https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9-blue)
+[![Build Status](https://travis-ci.com/joshlk/dataclassframe.svg?branch=main)](https://travis-ci.com/joshlk/dataclassframe)
+[![Documentation](https://readthedocs.org/projects/dataclassframe/badge/?version=latest&style=flat)](https://dataclassframe.readthedocs.io/)
+
 # dataclassframe
 
 A dataclass container with multi-indexing and bulk operations.
@@ -15,6 +20,14 @@ A DataClassFrame provides good ergonomics for production code as columns are imm
 and columns/data types are well defined by the dataclasses.
 This makes it easier for users to understand the "shape" of the data in large projects and refactor when necessary.
 
+## Installing
+
+Get the latest version using pip/PyPi
+
+```shell
+pip install dataclassframe
+```
+
 ## Feature comparison
 
 | Container                                       | Positional indexing | Key indexing | Multi-key indexing | Data-oriented design | Column-wise opperations | Type hints | Use in prod |
@@ -23,7 +36,7 @@ This makes it easier for users to understand the "shape" of the data in large pr
 | List                                            | ✅                   | ❌            | ❌                  | ❌                    | ❌                       | ✅          | ✅           |
 | Dictionary                                      | ❌                   | ✅            | ❌                  | ❌                    | ❌                       | ✅          | ✅           |
 | [MIDict](https://github.com/ShenggaoZhu/midict) | ✅                   | ✅            | ✅                  | ❌                    | ❌                       | ✅          | ✅           |
-| [Pandas DataFrame](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html)                               | ❌                   | ❌            | ❌                  | ✅                    | ✅                       | ❌          | ❌           |
+| [Pandas DataFrame](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html)                               | ✅                   | ✅            | ✅                  | ✅                    | ✅                       | ❌          | ❌           |
 
 ## Show by example
 
@@ -43,10 +56,11 @@ records = [
     ExampleDC('c', 3),
 ]
 
-dcf = DataClassFrame.from_records(
+dcf = DataClassFrame(
         record_class=ExampleDC,
         data=records,
-        index=['field1', 'field2'])
+        index=['field1', 'field2']
+)
 ```
 
 Which acts like a ordered dictionary with multi-indexing...

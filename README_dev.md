@@ -9,13 +9,10 @@ Bump version (major, minor or patch):
 bump2version micro
 ```
 
-Commit to master and get build-id from Azure Pipeline URL:
-https://dev.azure.com/josh0282/k-means-constrained/_build?definitionId=1
-
-Download distributions (artifacts)
+Download distributions
 
 ```shell script
-make download-dists ID=$BUILD_ID
+make dist
 ```
 
 Upload to test PyPi
@@ -28,13 +25,13 @@ make test-pypi
 Activate virtual env (might need to `make venv-create`)
 
 ```shell script
-source k-means-env/bin/activate
+source dataclassframe-venv/bin/activate
 ```
 
 Test install (in virtual env):
 
 ```shell script
-pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple k-means-constrained
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple dataclassframe
 ```
 
 Then push to real PyPI:
