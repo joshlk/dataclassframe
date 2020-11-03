@@ -27,9 +27,9 @@ records = [
 ]
 
 dcf = DataClassFrame(
-        record_class=ExampleDC,
-        data=records,
-        index=['field1', 'field2']
+    record_class=ExampleDC,
+    data=records,
+    index=['field1', 'field2']
 )
 ```
 

@@ -1,4 +1,5 @@
-.PHONY: build dist redist install dist-no-cython install-from-source clean uninstall venv-create venv-activate check-dist test-pypi pypi-upload
+# Add to PHONY target list so it always it run even when nothing has changed
+.PHONY: dist install clean venv-create venv-activate docs check-dist test-pypi pypi-upload
 
 dist:
 	python setup.py sdist bdist_wheel
