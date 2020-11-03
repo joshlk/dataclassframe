@@ -231,7 +231,7 @@ class DataClassFrame(Generic[RecordT]):
 
             >>> self.at['c', 'd']
 
-            Set record with joint key `(`a`, 'f')`:
+            Set record with joint key `('a', 'f')`:
 
             >>> self.at['a', 'f'] = RecordT(foo='a', bar='f')
 
