@@ -377,15 +377,15 @@
 
 <span class="sd">            Access record `&#39;b&#39;` using the second field index:</span>
 
-<span class="sd">            &gt;&gt;&gt; self.iat[:, &#39;b&#39;]</span>
+<span class="sd">            &gt;&gt;&gt; self.at[:, &#39;b&#39;]</span>
 
-<span class="sd">            Access record with unique key combination [&#39;c&#39;, &#39;d&#39;]:</span>
+<span class="sd">            Access record with joint key `(&#39;c&#39;, &#39;d&#39;)`:</span>
 
-<span class="sd">            &gt;&gt;&gt; self.iat[&#39;c&#39;, &#39;d&#39;]</span>
+<span class="sd">            &gt;&gt;&gt; self.at[&#39;c&#39;, &#39;d&#39;]</span>
 
-<span class="sd">            Set record with key `a`:</span>
+<span class="sd">            Set record with joint key `(`a`, &#39;f&#39;)`:</span>
 
-<span class="sd">            &gt;&gt;&gt; self.iat[&#39;a&#39;] = RecordT(foo=&#39;a&#39;, bar=1)</span>
+<span class="sd">            &gt;&gt;&gt; self.at[&#39;a&#39;, &#39;f&#39;] = RecordT(foo=&#39;a&#39;, bar=&#39;f&#39;)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 

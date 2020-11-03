@@ -225,15 +225,15 @@ class DataClassFrame(Generic[RecordT]):
 
             Access record `'b'` using the second field index:
 
-            >>> self.iat[:, 'b']
+            >>> self.at[:, 'b']
 
-            Access record with unique key combination ['c', 'd']:
+            Access record with joint key `('c', 'd')`:
 
-            >>> self.iat['c', 'd']
+            >>> self.at['c', 'd']
 
-            Set record with key `a`:
+            Set record with joint key `(`a`, 'f')`:
 
-            >>> self.iat['a'] = RecordT(foo='a', bar=1)
+            >>> self.at['a', 'f'] = RecordT(foo='a', bar='f')
 
         """
 

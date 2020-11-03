@@ -37,5 +37,7 @@ pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://
 Then push to real PyPI:
 
 ```shell script
+rm -r dist
+make dist
 make pypi-upload
 ```

@@ -32,7 +32,7 @@ pip install dataclassframe
 
 | Container                                       | Positional indexing | Key indexing | Multi-key indexing | Data-oriented design | Column-wise opperations | Type hints | Use in prod |
 |-------------------------------------------------|---------------------|--------------|--------------------|----------------------|-------------------------|------------|-------------|
-| DataClassFrame                                  | ✅                   | ✅            | ✅                  | ✅                    | ✅                       | ✅          | ✅           |
+| **DataClassFrame**                                  | ✅                   | ✅            | ✅                  | ✅                    | ✅                       | ✅          | ✅           |
 | List                                            | ✅                   | ❌            | ❌                  | ❌                    | ❌                       | ✅          | ✅           |
 | Dictionary                                      | ❌                   | ✅            | ❌                  | ❌                    | ❌                       | ✅          | ✅           |
 | [MIDict](https://github.com/ShenggaoZhu/midict) | ✅                   | ✅            | ✅                  | ❌                    | ❌                       | ✅          | ✅           |
