@@ -36,7 +36,9 @@ pip install dataclassframe
 | List                                            | ✅                   | ❌            | ❌                  | ❌                    | ❌                       | ✅          | ✅           |
 | Dictionary                                      | ❌                   | ✅            | ❌                  | ❌                    | ❌                       | ✅          | ✅           |
 | [MIDict](https://github.com/ShenggaoZhu/midict) | ✅                   | ✅            | ✅                  | ❌                    | ❌                       | ✅          | ✅           |
-| [Pandas DataFrame](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html)                               | ✅                   | ✅            | ✅                  | ✅                    | ✅                       | ❌          | ❌           |
+| [Pandas DataFrame](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html)                               | ✅                   | ✅            | ✅                  | ✅                    | ✅                       | ❌          | ❌*           |
+
+*DataFrames used in production code is [considered by the author and others as an anti-pattern][2].
 
 ## Show by example
 
