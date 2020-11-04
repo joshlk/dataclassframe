@@ -38,7 +38,7 @@ pip install dataclassframe
 | [MIDict](https://github.com/ShenggaoZhu/midict) | ✅                   | ✅            | ✅                  | ❌                    | ❌                       | ✅          | ✅           |
 | [Pandas DataFrame](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html)                               | ✅                   | ✅            | ✅                  | ✅                    | ✅                       | ❌          | ❌*           |
 
-*DataFrames used in production code is [considered by the author and others as an anti-pattern][2].
+*DataFrames used in production code as an data interchange format is [considered by the author and others as an anti-pattern][2].
 
 ## Show by example
 
@@ -90,10 +90,18 @@ dcf.iat[1]: ExampleDC
 It's no secret that under the hood DataClassFrames are using Pandas DataFrames to store data.
 The data is converted where possible to Pandas Series, which in turn use Numpy arrays. When the user accesses a record the data is then converted back into the dataclass provided at initialisation.
 
-Pandas provides many advantages over of using a simple list of dataclasses or similar such as better memory
-footprint and fast vectorised operations. However using Pandas DataFrames directly in production code is [considered by the author and others as an anti-pattern][2].
+Pandas provides many advantages over of using a simple list of dataclasses such as better memory
+footprint and fast vectorised operations. Each column of data is stored (usually) using Numpy arrays which use a continuous block of memory. Providing faster access and better CPU cache characteristics.
+
+However using Pandas DataFrames directly in production code as a data interchange format is [considered by the author and others as an anti-pattern][2].
 Specifically as DataFrames are column-wise mutable and therefore difficult to determine at code-time what columns
-the dataframe contains i.e. its shape. It also does not provide any type-hinting benefits.
+the dataframe contains i.e. its shape. Users of DataFrames will typically add new columns to add new features.
+ 
+ DataClasses on the other hand are attribute-wise immutable. Therefore the intentions and shape of the data are clear, making it easier to refactor and maintain the code.
+ 
+ DataFrames also do not provide any type-hinting benefits, while DataClass do as they are attribute-wise immutable.
+ 
+ DataClassFrames provide the benefits of both worlds by defining the data shape upfront by using a DataClasses. The columns and record data types are defined by the provided dataclass.
 
 [1]: https://jamesmcm.github.io/blog/2020/07/25/intro-dod/
 [2]: https://devanla.com/posts/do-not-create-that-dataframe.html
